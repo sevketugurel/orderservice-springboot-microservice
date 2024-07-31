@@ -1,3 +1,6 @@
+//Burasısipariş veritabanı işlemleri için arayüzleri içerir. Genellikle JpaRepository gibi Spring Data bileşenlerini
+// kullanır.
+
 package com.example.orderservice.repository;
 
 import com.example.orderservice.model.Order;

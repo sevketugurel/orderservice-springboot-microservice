@@ -1,14 +1,41 @@
-package com.example.orderservice;
+package com.example.orderservice.service;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.openfeign.EnableFeignClients;
+import com.example.orderservice.model.Order;
+import com.example.orderservice.repository.OrderRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-@SpringBootApplication
-@EnableFeignClients
-public class OrderserviceApplication {
+import java.util.List;
 
-	public static void main(String[] args) {
-		SpringApplication.run(OrderserviceApplication.class, args);
+@Service //anotasyon bu sınıfın bir servis bileşeni olduğunu belirtir.
+public class OrderService {
+
+	@Autowired
+	private OrderRepository orderRepository;
+
+	public Order saveOrder(Order order) {
+		return orderRepository.save(order);
+	}
+
+	public List<Order> getAllOrders() {
+		return orderRepository.findAll();
+	}
+
+	public Order getOrderById(Long id) {
+		return orderRepository.findById(id).orElse(null);
+	}
+
+	public Order updateOrder(Long id, Order order) {
+		return orderRepository.findById(id)
+				.map(existingOrder -> {
+					existingOrder.setDescription(order.getDescription());
+					existingOrder.setAmount(order.getAmount());
+					existingOrder.setUserId(order.getUserId());
+					return orderRepository.save(existingOrder);
+				}).orElse(null);
+	}
+
+	public void deleteOrder(Long id) {
+		orderRepository.deleteById(id);
 	}
 }

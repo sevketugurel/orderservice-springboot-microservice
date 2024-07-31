@@ -1,3 +1,5 @@
+// Siparişlerle ilgili HTTP isteklerini yöneten REST denetleyicisidir. Sipariş verilerini saklamak, güncellemek, silmek ve almak için HTTP isteklerini yapar.
+
 package com.example.orderservice.controller;
 
 import com.example.orderservice.model.Order;
@@ -10,13 +12,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/orders") //bu sınıfın bir REST denetleyicisi olduğunu ve /orders yoluna gelen istekleri yönettiğini belirtir.
 public class OrderController {
 
     @Autowired
     private OrderService orderService;
 
-    @PostMapping
+    @PostMapping // HTTP POST isteği ile yeni bir sipariş oluşturur.
     public ResponseEntity<Order> createOrder(@RequestBody Order order) {
         try {
             Order createdOrder = orderService.saveOrder(order);
@@ -26,7 +28,7 @@ public class OrderController {
         }
     }
 
-    @GetMapping
+    @GetMapping // HTTP GET isteği ile tüm siparişleri alır.
     public ResponseEntity<List<Order>> getAllOrders() {
         try {
             List<Order> orders = orderService.getAllOrders();
@@ -39,7 +41,7 @@ public class OrderController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}") // HTTP GET isteği ile belirli bir siparişi alır.
     public ResponseEntity<Order> getOrderById(@PathVariable("id") Long id) {
         try {
             Order order = orderService.getOrderById(id);
@@ -53,7 +55,7 @@ public class OrderController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}")// HTTP PUT isteği ile belirli bir siparişi günceller.
     public ResponseEntity<Order> updateOrder(@PathVariable("id") Long id, @RequestBody Order order) {
         try {
             Order updatedOrder = orderService.updateOrder(id, order);
@@ -67,7 +69,7 @@ public class OrderController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}")// HTTP DELETE isteği ile belirli bir siparişi siler.
     public ResponseEntity<HttpStatus> deleteOrder(@PathVariable("id") Long id) {
         try {
             orderService.deleteOrder(id);

@@ -1,3 +1,5 @@
+// Bu sınıf, kullanıcı servisten alınan kullanıcı bilgilerini temsil eden bir veri modelidir.
+
 package com.example.orderservice.client;
 
 public class UserResponse {

@@ -1,3 +1,5 @@
+//burası order tablosunun modeli olacak. Bu tabloda id, description, amount ve userId alanları olacak. Bu alanlar için getter ve setter metodları oluşturulacak.
+
 package com.example.orderservice.model;
 
 import jakarta.persistence.*;
@@ -10,11 +12,12 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String description;
+    private double amount;
     private Long userId;
-    private String productName;
-    private int quantity;
 
-    // Getters and Setters
+    // Getter and Setter methods
+
     public Long getId() {
         return id;
     }
@@ -23,27 +26,27 @@ public class Order {
         this.id = id;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
     public Long getUserId() {
         return userId;
     }
 
     public void setUserId(Long userId) {
         this.userId = userId;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 }
