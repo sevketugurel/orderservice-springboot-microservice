@@ -6,9 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
-@Service
+@Service //anotasyon bu sınıfın bir servis bileşeni olduğunu belirtir.
 public class OrderService {
 
     @Autowired
@@ -23,20 +22,19 @@ public class OrderService {
     }
 
     public Order getOrderById(Long id) {
-        Optional<Order> order = orderRepository.findById(id);
-        return order.orElse(null);
+        return orderRepository.findById(id).orElse(null);
     }
 
     public Order updateOrder(Long id, Order order) {
-        Optional<Order> existingOrder = orderRepository.findById(id);
-        if (existingOrder.isPresent()) {
-            Order _order = existingOrder.get();
-            _order.setProductName(order.getProductName());
-            _order.setQuantity(order.getQuantity());
-            return orderRepository.save(_order);
-        } else {
-            return null;
-        }
+        return orderRepository.findById(id)
+                .map(existingOrder -> {
+                    existingOrder.setDescription(order.getDescription());
+                    existingOrder.setAmount(order.getAmount());
+                    existingOrder.setUserId(order.getUserId());
+                    existingOrder.setProductName(order.getProductName()); // Add this line
+                    existingOrder.setQuantity(order.getQuantity()); // Add this line
+                    return orderRepository.save(existingOrder);
+                }).orElse(null);
     }
 
     public void deleteOrder(Long id) {
