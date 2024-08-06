@@ -6,38 +6,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
-@Service //anotasyon bu sınıfın bir servis bileşeni olduğunu belirtir.
+@Service
 public class OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
 
-    public Order saveOrder(Order order) {
-        return orderRepository.save(order);
+    public void saveOrder(Order order) {
+        order.setOrderId(UUID.randomUUID().toString());
+        orderRepository.saveOrder(order);
     }
 
-    public List<Order> getAllOrders() {
-        return orderRepository.findAll();
+    public Optional<Order> getOrderByNicknameAndId(String nickname, String orderId) {
+        return orderRepository.getOrderByNicknameAndId(nickname, orderId);
     }
 
-    public Order getOrderById(Long id) {
-        return orderRepository.findById(id).orElse(null);
+    public void deleteOrderByNicknameAndId(String nickname, String orderId) {
+        orderRepository.deleteOrderByNicknameAndId(nickname, orderId);
     }
 
-    public Order updateOrder(Long id, Order order) {
-        return orderRepository.findById(id)
-                .map(existingOrder -> {
-                    existingOrder.setDescription(order.getDescription());
-                    existingOrder.setAmount(order.getAmount());
-                    existingOrder.setUserId(order.getUserId());
-                    existingOrder.setProductName(order.getProductName()); // Add this line
-                    existingOrder.setQuantity(order.getQuantity()); // Add this line
-                    return orderRepository.save(existingOrder);
-                }).orElse(null);
+    public void updateOrder(Order order) {
+        orderRepository.updateOrder(order);
     }
 
-    public void deleteOrder(Long id) {
-        orderRepository.deleteById(id);
+    public List<Order> getOrdersByNickname(String nickname) {
+        return orderRepository.getOrdersByNickname(nickname);
     }
 }
